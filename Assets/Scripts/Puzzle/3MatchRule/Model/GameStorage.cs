@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Common.Model;
+using Newtonsoft.Json.Linq;
+using Puzzle.Util;
 using UnityEngine;
 
 public class GameStorage : MonoBehaviour
@@ -10,6 +12,8 @@ public class GameStorage : MonoBehaviour
     private Dictionary<string, Storage> storages;
     
     public static Stage Stage => GameStorage.Instance.GetStorage<Stage>();
+    public static Hashtable Stages;
+    
     public static GameStorage Instance
     {
         get
@@ -31,7 +35,16 @@ public class GameStorage : MonoBehaviour
 
     public void OpenPuzzleStorages()
     {
-        OpenSubStorage(new Stage());
+        GameStorage.Stages = new Hashtable();
+        var stageFiles = Resources.LoadAll<TextAsset>(FilePathControl.PATH_ASSET_STAGE_FOLDER.ToString());
+        foreach (var stageTextAsset in stageFiles)
+        {
+            string fileText = stageTextAsset.text;
+            JObject jObject = JObject.Parse(fileText);
+            Stage stage = new Stage(jObject);
+            
+            GameStorage.Stages.Add(stage.StageNo, stage);
+        }
     }
     
     private void OpenSubStorage<T>(T storage) where T : Storage
