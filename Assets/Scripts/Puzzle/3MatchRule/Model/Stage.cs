@@ -10,8 +10,6 @@ using Puzzle.Util;
 
 public class Stage : Storage
 {
-    public event Action StageFileUpdated;
-
     private string name;
     private string description;
     private UInt64 stageNo;

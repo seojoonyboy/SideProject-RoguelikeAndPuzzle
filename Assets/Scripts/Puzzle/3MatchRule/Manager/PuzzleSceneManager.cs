@@ -19,9 +19,7 @@ namespace Puzzle.Manager
         
         private void InitStorages()
         {
-            GameStorage.Instance.OpenPuzzleStorages();
-            Stage stage = GameStorage.Instance.GetStorage<Stage>();
-            stage.StageFileUpdated += OnStageFileUpdated;
+            // GameStorage.Instance.OpenPuzzleStorages();
         }
 
         private void OnStageFileUpdated()
